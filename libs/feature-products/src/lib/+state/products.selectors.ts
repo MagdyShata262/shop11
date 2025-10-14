@@ -1,43 +1,30 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import {
-  PRODUCTS_FEATURE_KEY,
-  ProductsState,
-  productsAdapter,
-} from './products.reducer';
+import { productsFeatureKey, ProductsState } from './products.reducer';
 
-// Lookup the 'Products' feature state managed by NgRx
 export const selectProductsState =
-  createFeatureSelector<ProductsState>(PRODUCTS_FEATURE_KEY);
+  createFeatureSelector<ProductsState>(productsFeatureKey);
 
-const { selectAll, selectEntities } = productsAdapter.getSelectors();
-
-export const selectProductsLoaded = createSelector(
+export const selectAllProducts = createSelector(
   selectProductsState,
-  (state: ProductsState) => state.loaded
+  (state) => state.products
+);
+
+export const selectSelectedProduct = createSelector(
+  selectProductsState,
+  (state) => state.selectedProduct
+);
+
+export const selectProductsLoading = createSelector(
+  selectProductsState,
+  (state) => state.loading
 );
 
 export const selectProductsError = createSelector(
   selectProductsState,
-  (state: ProductsState) => state.error
+  (state) => state.error
 );
 
-export const selectAllProducts = createSelector(
-  selectProductsState,
-  (state: ProductsState) => selectAll(state)
-);
-
-export const selectProductsEntities = createSelector(
-  selectProductsState,
-  (state: ProductsState) => selectEntities(state)
-);
-
-export const selectSelectedId = createSelector(
-  selectProductsState,
-  (state: ProductsState) => state.selectedId
-);
-
-export const selectEntity = createSelector(
-  selectProductsEntities,
-  selectSelectedId,
-  (entities, selectedId) => (selectedId ? entities[selectedId] : undefined)
-);
+export const selectProductById = (id: number) =>
+  createSelector(selectAllProducts, (products) =>
+    products.find((product) => product.id === id)
+  );

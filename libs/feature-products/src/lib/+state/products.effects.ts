@@ -1,23 +1,87 @@
 import { Injectable, inject } from '@angular/core';
-import { createEffect, Actions, ofType } from '@ngrx/effects';
-import { switchMap, catchError, of } from 'rxjs';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { of } from 'rxjs';
+import { map, mergeMap, catchError } from 'rxjs/operators';
+
 import * as ProductsActions from './products.actions';
-import * as ProductsFeature from './products.reducer';
+import { ProductsServiceService } from '@mydata-access/data-access';
 
 @Injectable()
 export class ProductsEffects {
   private actions$ = inject(Actions);
+  private productsService = inject(ProductsServiceService);
 
-  init$ = createEffect(() =>
+  loadProducts$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(ProductsActions.initProducts),
-      switchMap(() =>
-        of(ProductsActions.loadProductsSuccess({ products: [] }))
-      ),
-      catchError((error) => {
-        console.error('Error', error);
-        return of(ProductsActions.loadProductsFailure({ error }));
-      })
+      ofType(ProductsActions.loadProducts),
+      mergeMap(() =>
+        this.productsService.getProducts().pipe(
+          map((products) => ProductsActions.loadProductsSuccess({ products })),
+          catchError((error) =>
+            of(ProductsActions.loadProductsFailure({ error: error.message }))
+          )
+        )
+      )
+    )
+  );
+
+  loadProduct$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ProductsActions.loadProduct),
+      mergeMap(({ id }) =>
+        this.productsService.getProduct(id).pipe(
+          map((product) => ProductsActions.loadProductSuccess({ product })),
+          catchError((error) =>
+            of(ProductsActions.loadProductFailure({ error: error.message }))
+          )
+        )
+      )
+    )
+  );
+
+  addProduct$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ProductsActions.addProduct),
+      mergeMap(({ product }) =>
+        this.productsService.createProduct(product).pipe(
+          map((newProduct) =>
+            ProductsActions.addProductSuccess({ product: newProduct })
+          ),
+          catchError((error) =>
+            of(ProductsActions.addProductFailure({ error: error.message }))
+          )
+        )
+      )
+    )
+  );
+
+  updateProduct$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ProductsActions.updateProduct),
+      mergeMap(({ id, product }) =>
+        this.productsService.updateProduct(id, product).pipe(
+          map((updatedProduct) =>
+            ProductsActions.updateProductSuccess({ product: updatedProduct })
+          ),
+          catchError((error) =>
+            of(ProductsActions.updateProductFailure({ error: error.message }))
+          )
+        )
+      )
+    )
+  );
+
+  deleteProduct$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ProductsActions.deleteProduct),
+      mergeMap(({ id }) =>
+        this.productsService.deleteProduct(id).pipe(
+          map(() => ProductsActions.deleteProductSuccess({ id })),
+          catchError((error) =>
+            of(ProductsActions.deleteProductFailure({ error: error.message }))
+          )
+        )
+      )
     )
   );
 }
