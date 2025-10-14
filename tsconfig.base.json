@@ -5,17 +5,40 @@
     "emitDecoratorMetadata": false,
     "target": "es2022",
     "module": "preserve",
-    "lib": ["es2020", "dom"],
+    "lib": [
+      "es2020",
+      "dom"
+    ],
     "baseUrl": ".",
     "paths": {
-      "@myfeature-auth/feature-auth": ["libs/feature-auth/src/index.ts"],
-      "@myfeature-carts/feature-carts": ["libs/feature-carts/src/index.ts"],
+      "@mydata-access/data-access": [
+        "libs/data-access/src/index.ts"
+      ],
+      "@myfeature-auth/feature-auth": [
+        "libs/feature-auth/src/index.ts"
+      ],
+      "@myfeature-carts/feature-carts": [
+        "libs/feature-carts/src/index.ts"
+      ],
       "@myfeature-products/feature-products": [
         "libs/feature-products/src/index.ts"
       ],
-      "@myfeature-users/feature-users": ["libs/feature-users/src/index.ts"],
-      "@myui/ui": ["libs/ui/src/index.ts"]
+      "@myfeature-users/feature-users": [
+        "libs/feature-users/src/index.ts"
+      ],
+      "@myui/ui": [
+        "libs/ui/src/index.ts"
+      ],
+      "@state/state": [
+        "libs/state/src/index.ts"
+      ],
+      "@utils/utils": [
+        "libs/utils/src/index.ts"
+      ]
     }
   },
-  "exclude": ["node_modules", "tmp"]
+  "exclude": [
+    "node_modules",
+    "tmp"
+  ]
 }
