@@ -1,0 +1,89 @@
+<p>products-list works!</p>
+
+<h2>🛒 Our Products</h2>
+
+<!-- libs/ui/src/lib/products-list/products-list.component.html -->
+
+<div class="products-container">
+  <!-- حالة التحميل -->
+  <div *ngIf="loading$ | async" class="loading">
+    <p>جارٍ تحميل المنتجات...</p>
+  </div>
+
+  <!-- حالة الخطأ -->
+  <div *ngIf="error$ | async as error" class="error">
+    <p>حدث خطأ: {{ error }}</p>
+  </div>
+
+  <!-- قائمة المنتجات -->
+  <div
+    *ngIf="products$ | async as products; else noProducts"
+    class="products-grid"
+  >
+    <div
+      *ngFor="let product of products"
+      class="product-card"
+      [routerLink]="['/products', product.id]"
+    >
+      <img [src]="product.image" [alt]="product.title" class="product-image" />
+      <div class="product-info">
+        <h3 class="product-title">{{ product.title }}</h3>
+        <p class="product-category">{{ product.category }}</p>
+        <p class="product-description">
+          {{ product.description | slice : 0 : 100 }}...
+        </p>
+        <div class="product-footer">
+          <span class="product-price"
+            >${{ product.price | number : '1.2-2' }}</span
+          >
+          <button
+            class="add-to-cart-btn"
+            (click)="onAddToCart(product); $event.stopPropagation()"
+          >
+            أضف إلى السلة
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- حالة عدم وجود منتجات -->
+  <ng-template #noProducts>
+    <div class="no-products">
+      <p>لا توجد منتجات متاحة حاليًا.</p>
+    </div>
+  </ng-template>
+</div>
+
+<!-- <div class="products-container">
+  <h2>🛒 Our Products</h2>
+  
+  <div *ngIf="loading$ | async" class="loading">
+    Loading products...
+  </div>
+
+  <div *ngIf="error$ | async as error" class="error">
+    {{ error }}
+  </div>
+
+  <div class="products-grid">
+    <project-magdy-card 
+      *ngFor="let product of products$ | async" 
+      class="product-card"
+      [routerLink]="[product.id]"
+    >
+      <img [src]="product.image" [alt]="product.title" class="product-image">
+      <h3 class="product-title">{{ product.title }}</h3>
+      <p class="product-category">{{ product.category }}</p>
+      <p class="product-price">{{ product.price | currency:'USD' }}</p>
+      <div class="product-rating">
+        ⭐ {{ product.rating.rate }} ({{ product.rating.count }} reviews)
+      </div>
+      <project-magdy-button 
+        (click)="onAddToCart(product); $event.stopPropagation()"
+      >
+        Add to Cart
+      </project-magdy-button>
+    </project-magdy-card>
+  </div>
+</div> -->

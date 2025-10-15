@@ -16,14 +16,22 @@ import { provideStoreDevtools } from '@ngrx/store-devtools';
 import * as fromShop from './+state/shop.reducer';
 import { ShopEffects } from './+state/shop.effects';
 import { ShopFacade } from './+state/shop.facade';
+import { provideHttpClient } from '@angular/common/http';
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    provideHttpClient(),
     provideEffects(ShopEffects),
     provideState(fromShop.SHOP_FEATURE_KEY, fromShop.shopReducer),
     ShopFacade,
     provideStore(),
-    provideStoreDevtools({ logOnly: !isDevMode() }),
+    provideStoreDevtools({
+      maxAge: 25,
+      logOnly: !isDevMode(),
+      autoPause: true,
+      trace: false,
+      traceLimit: 75,
+    }),
     provideEffects(),
     provideClientHydration(withEventReplay()),
     provideBrowserGlobalErrorListeners(),
