@@ -16,11 +16,15 @@ import { provideStoreDevtools } from '@ngrx/store-devtools';
 import * as fromShop from './+state/shop.reducer';
 import { ShopEffects } from './+state/shop.effects';
 import { ShopFacade } from './+state/shop.facade';
-import { provideHttpClient } from '@angular/common/http';
+import {
+  provideHttpClient,
+  withFetch,
+  withRequestsMadeViaParent,
+} from '@angular/common/http';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideHttpClient(),
+    provideHttpClient(withFetch(), withRequestsMadeViaParent()),
     provideEffects(ShopEffects),
     provideState(fromShop.SHOP_FEATURE_KEY, fromShop.shopReducer),
     ShopFacade,
