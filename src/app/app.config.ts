@@ -19,12 +19,12 @@ import { ShopFacade } from './+state/shop.facade';
 import {
   provideHttpClient,
   withFetch,
-  withRequestsMadeViaParent,
+
 } from '@angular/common/http';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideHttpClient(withFetch(), withRequestsMadeViaParent()),
+    provideHttpClient(withFetch()),
     provideEffects(ShopEffects),
     provideState(fromShop.SHOP_FEATURE_KEY, fromShop.shopReducer),
     ShopFacade,
