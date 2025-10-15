@@ -29,6 +29,7 @@ export  class ProductsListComponent implements OnInit {
   }
   ngOnInit(): void {
     this.store.dispatch(ProductsActions.loadProducts());
+    console.log('ProductsListComponent initialized');
   }
 
   onAddToCart(product: Product): void {
