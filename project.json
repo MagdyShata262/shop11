@@ -9,15 +9,12 @@
   "targets": {
     "build": {
       "executor": "@angular/build:application",
-      "outputs": [
-        "{options.outputPath}"
-      ],
+      "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/shop",
         "browser": "./src/main.ts",
-        "polyfills": [
-          "zone.js"
-        ],
+        "polyfills": ["zone.js"],
+        "styles": ["libs/ui/src/styles/tailwind.css"],
         "tsConfig": "tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "assets": [
@@ -26,9 +23,7 @@
             "input": "public"
           }
         ],
-        "styles": [
-          "./src/styles.scss"
-        ],
+        "styles": ["./src/styles.scss"],
         "server": "src/main.server.ts",
         "ssr": {
           "entry": "src/server.ts"
@@ -81,16 +76,12 @@
     "lint": {
       "executor": "@nx/eslint:lint",
       "options": {
-        "lintFilePatterns": [
-          "./src"
-        ]
+        "lintFilePatterns": ["./src"]
       }
     },
     "test": {
       "executor": "@nx/vite:test",
-      "outputs": [
-        "{options.reportsDirectory}"
-      ],
+      "outputs": ["{options.reportsDirectory}"],
       "options": {
         "reportsDirectory": "coverage/shop"
       }
