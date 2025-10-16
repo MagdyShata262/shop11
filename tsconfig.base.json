@@ -18,7 +18,8 @@
       "@myui/ui": ["libs/ui/src/index.ts"],
       "@state/state": ["libs/state/src/index.ts"],
       "@utils/utils": ["libs/utils/src/index.ts"]
-    }
+    },
+    "skipLibCheck": true
   },
   "exclude": ["node_modules", "tmp"]
 }

@@ -15,7 +15,7 @@ import { RouterModule } from '@angular/router';
   templateUrl: './products-list.component.html',
   styleUrl: './products-list.component.scss',
 })
-export  class ProductsListComponent implements OnInit {
+export class ProductsListComponent implements OnInit {
   private store = inject(Store);
 
   products$: Observable<Product[]>;
