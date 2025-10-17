@@ -95,13 +95,13 @@
     }
 
     // Hover effect
-    &.card-hover {
-        @apply cursor-pointer;
+    // &.card-hover {
+    //     @apply cursor-pointer;
 
-        &:hover {
-            @apply shadow-hover transform -translate-y-0.5;
-        }
-    }
+    //     &:hover {
+    //         @apply shadow-hover transform -translate-y-0.5;
+    //     }
+    // }
 }
 
 // Card sections

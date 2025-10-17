@@ -1,1 +1,99 @@
-<p>header works!</p>
+<header [class]="headerClasses">
+  <div class="header-container">
+    <!-- Logo and Mobile Menu Button -->
+    <div class="header-left">
+      <!-- Mobile Menu Button -->
+      <button
+        class="mobile-menu-button"
+        (click)="toggleMobileMenu()"
+        aria-label="فتح/إغلاق القائمة"
+        [attr.aria-expanded]="isMobileMenuOpen"
+      >
+        <span class="menu-icon"></span>
+        <span class="menu-icon"></span>
+        <span class="menu-icon"></span>
+      </button>
+
+      <!-- Logo -->
+      <a href="/" class="logo">
+        <span class="logo-icon">{{ logo }}</span>
+        <span class="company-name">{{ companyName }}</span>
+      </a>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navigation" [class.active]="isMobileMenuOpen">
+      <ul class="nav-list">
+        <li *ngFor="let item of navigationItems" class="nav-item">
+          <a
+            href="{{ item.path }}"
+            class="nav-link"
+            (click)="onNavigationClick(item.path)"
+            [attr.aria-label]="item.label"
+          >
+            {{ item.label }}
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <!-- Header Right Section -->
+    <div class="header-right">
+      <!-- Search Bar -->
+      <div class="search-container" *ngIf="showSearch">
+        <div class="search-wrapper">
+          <input
+            type="text"
+            [(ngModel)]="searchQuery"
+            (input)="onSearchChange(searchQuery)"
+            placeholder="ابحث عن المنتجات..."
+            class="search-input"
+            aria-label="بحث عن المنتجات"
+          />
+          <button class="search-button" aria-label="بحث">
+            <span class="search-icon">🔍</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Cart -->
+      <button
+        *ngIf="showCart"
+        class="cart-button"
+        (click)="onCartClick()"
+        aria-label="عربة التسوق"
+      >
+        <span class="cart-icon">🛒</span>
+        <span *ngIf="cartItemsCount > 0" class="cart-badge">
+          {{ cartItemsCount }}
+        </span>
+      </button>
+
+      <!-- User Menu -->
+      <div class="user-menu" *ngIf="showUserMenu">
+        <div *ngIf="user; else loginButton" class="user-info">
+          <button
+            class="user-button"
+            (click)="onUserMenuClick()"
+            aria-label="قائمة المستخدم"
+          >
+            <span class="user-avatar">
+              {{ user.avatar || '👤' }}
+            </span>
+            <span class="user-name">{{ user.name }}</span>
+          </button>
+        </div>
+
+        <ng-template #loginButton>
+          <button
+            class="login-button"
+            (click)="onLoginClick()"
+            aria-label="تسجيل الدخول"
+          >
+            تسجيل الدخول
+          </button>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</header>

@@ -45,7 +45,7 @@ module.exports = {
           700: '#374151',
           800: '#1f2937',
           900: '#111827',
-        }
+        },
       },
       spacing: {
         18: '4.5rem',
@@ -63,7 +63,21 @@ module.exports = {
         card: '0 4px 12px rgba(0, 0, 0, 0.1)',
         hover: '0 6px 16px rgba(0, 0, 0, 0.15)',
       },
+      // إعدادات RTL إضافية
+      screens: {
+        rtl: { raw: '(dir: rtl)' },
+        ltr: { raw: '(dir: ltr)' },
+      },
     },
   },
   plugins: [],
+  // إعدادات RTL الأساسية
+  corePlugins: {
+    // تأكد من تفعيل الـ core plugins المطلوبة لـ RTL
+    textAlign: true,
+    float: true,
+    clear: true,
+    margin: true,
+    padding: true,
+  },
 };
