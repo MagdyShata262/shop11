@@ -1,0 +1,200 @@
+:host {
+    display: block;
+}
+
+.input-container {
+    @apply w-full;
+}
+
+.input-label {
+    @apply block text-sm font-medium text-gray-700 mb-2;
+
+    &.required::after {
+        content: " *";
+        @apply text-red-500;
+    }
+}
+
+.input-wrapper {
+    @apply relative flex items-center border border-gray-300 rounded-lg transition-all duration-200 focus-within:ring-2 focus-within:ring-offset-1 bg-white;
+
+    // Sizes
+    &.sm {
+        @apply px-3 py-2;
+
+        .input-field {
+            @apply text-sm;
+        }
+    }
+
+    &.md {
+        @apply px-4 py-3;
+
+        .input-field {
+            @apply text-base;
+        }
+    }
+
+    &.lg {
+        @apply px-4 py-4;
+
+        .input-field {
+            @apply text-lg;
+        }
+    }
+
+    // Variants
+    &.outline {
+        @apply border-2 bg-transparent;
+    }
+
+    &.filled {
+        @apply border-transparent bg-gray-100;
+    }
+
+    // Status
+    &.error {
+        @apply border-red-500 focus-within:ring-red-500;
+    }
+
+    &.success {
+        @apply border-green-500 focus-within:ring-green-500;
+    }
+
+    &.warning {
+        @apply border-yellow-500 focus-within:ring-yellow-500;
+    }
+
+    // States
+    &.disabled {
+        @apply opacity-50 cursor-not-allowed bg-gray-100;
+    }
+
+    // With icons
+    &.has-prefix {
+        .input-field {
+            @apply pl-10;
+        }
+    }
+
+    &.has-suffix {
+        .input-field {
+            @apply pr-10;
+        }
+    }
+}
+
+.input-field {
+    @apply w-full bg-transparent border-none outline-none placeholder-gray-400 text-gray-900;
+
+    &:focus {
+        @apply outline-none ring-0;
+    }
+
+    &:disabled {
+        @apply cursor-not-allowed;
+    }
+}
+
+.input-prefix,
+.input-suffix {
+    @apply flex items-center justify-center text-gray-400;
+
+    .icon {
+        @apply w-4 h-4;
+    }
+}
+
+.input-prefix {
+    @apply absolute left-3;
+}
+
+.input-suffix {
+    @apply absolute right-3 space-x-2;
+
+    .password-toggle {
+        @apply p-0 bg-transparent border-none cursor-pointer text-gray-400 hover:text-gray-600 transition-colors duration-200;
+
+        &:focus {
+            @apply outline-none ring-2 ring-primary-500 rounded;
+        }
+    }
+
+    .status-icon {
+        @apply w-4 h-4 rounded-full;
+
+        &.error {
+            @apply bg-red-500;
+        }
+
+        &.success {
+            @apply bg-green-500;
+        }
+
+        &.warning {
+            @apply bg-yellow-500;
+        }
+    }
+}
+
+.helper-text {
+    @apply mt-1 text-sm;
+
+    &.default {
+        @apply text-gray-500;
+    }
+
+    &.error {
+        @apply text-red-600;
+    }
+
+    &.success {
+        @apply text-green-600;
+    }
+
+    &.warning {
+        @apply text-yellow-600;
+    }
+}
+
+// RTL Support
+:host-context([dir="rtl"]) {
+    .input-wrapper {
+        &.has-prefix {
+            .input-field {
+                @apply pr-10 pl-3;
+            }
+
+            .input-prefix {
+                @apply right-3 left-auto;
+            }
+        }
+
+        &.has-suffix {
+            .input-field {
+                @apply pl-10 pr-3;
+            }
+
+            .input-suffix {
+                @apply left-3 right-auto;
+            }
+        }
+    }
+}
+
+// Focus states
+.input-wrapper:focus-within {
+    @apply border-primary-500;
+
+    &.error {
+        @apply border-red-500;
+    }
+
+    &.success {
+        @apply border-green-500;
+    }
+
+    &.warning {
+        @apply border-yellow-500;
+    }
+}

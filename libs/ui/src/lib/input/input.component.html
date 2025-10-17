@@ -1,1 +1,73 @@
-<p>input works!</p>
+<div class="input-container">
+  <!-- Label with proper association -->
+  <label
+    *ngIf="label"
+    [for]="inputId"
+    class="input-label"
+    [class.required]="required"
+  >
+    {{ label }}
+  </label>
+
+  <!-- Input Wrapper -->
+  <div class="input-wrapper" [class]="inputClasses">
+    <!-- Prefix Icon -->
+    <span class="input-prefix" *ngIf="prefixIcon">
+      <i class="icon" [innerHTML]="prefixIcon"></i>
+    </span>
+
+    <!-- Input Field with proper ID -->
+    <input
+      [id]="inputId"
+      [type]="type"
+      [value]="value"
+      [placeholder]="placeholder"
+      [disabled]="disabled"
+      [readonly]="readonly"
+      [required]="required"
+      (input)="onInputChange($event)"
+      
+      class="input-field"
+      [attr.aria-describedby]="helperText ? inputId + '-helper' : null"
+      [attr.aria-invalid]="status === 'error'"
+      [attr.aria-required]="required"
+    />
+
+    <!-- Suffix Icon or Password Toggle -->
+    <span class="input-suffix">
+      <!-- Password Toggle -->
+      <button
+        *ngIf="type === 'password' && showPasswordToggle"
+        type="button"
+        class="password-toggle"
+        (click)="togglePasswordVisibility()"
+        [attr.aria-label]="
+          isPasswordVisible ? 'إخفاء كلمة المرور' : 'إظهار كلمة المرور'
+        "
+        tabindex="-1"
+      >
+        <i class="icon" [innerHTML]="isPasswordVisible ? '👁️' : '👁️‍🗨️'"></i>
+      </button>
+
+      <!-- Custom Suffix Icon -->
+      <i
+        *ngIf="suffixIcon && type !== 'password'"
+        class="icon"
+        [innerHTML]="suffixIcon"
+      ></i>
+
+      <!-- Status Icon -->
+      <i *ngIf="status !== 'default'" class="status-icon" [class]="status"></i>
+    </span>
+  </div>
+
+  <!-- Helper Text with proper association -->
+  <div
+    *ngIf="helperText"
+    [id]="inputId + '-helper'"
+    [class]="helperTextClasses"
+    role="alert"
+  >
+    {{ helperText }}
+  </div>
+</div>

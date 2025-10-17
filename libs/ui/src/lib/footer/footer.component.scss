@@ -1,0 +1,153 @@
+:host {
+  display: block;
+}
+
+footer {
+  @apply bg-gray-900 text-white;
+
+  // Variants
+  &.minimal {
+    .footer-main {
+      @apply text-center;
+    }
+
+    .footer-nav,
+    .newsletter-section {
+      @apply hidden;
+    }
+  }
+
+  &.detailed {
+    .company-info {
+      @apply md:col-span-2;
+    }
+  }
+}
+
+.footer-content {
+  @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+}
+
+.footer-main {
+  @apply py-8 md:py-12;
+
+  @screen md {
+    @apply grid grid-cols-1 md:grid-cols-4 gap-8;
+  }
+}
+
+// Company Info
+.company-info {
+  @apply md:col-span-1;
+
+  .company-name {
+    @apply text-xl font-bold text-white mb-2;
+  }
+
+  .company-description {
+    @apply text-gray-400 mb-4;
+  }
+}
+
+// Social Links
+.social-links {
+  @apply flex space-x-4 rtl:space-x-reverse;
+
+  .social-link {
+    @apply text-gray-400 hover:text-white transition-colors duration-200;
+
+    .social-icon {
+      @apply w-5 h-5;
+    }
+  }
+}
+
+// Navigation
+.footer-nav {
+  @apply md:col-span-2 grid grid-cols-1 sm:grid-cols-3 gap-8;
+
+  .nav-section {
+    .nav-title {
+      @apply text-lg font-semibold text-white mb-4;
+    }
+
+    .nav-links {
+      @apply space-y-2;
+
+      .nav-link {
+        @apply text-gray-400 hover:text-white transition-colors duration-200 block;
+      }
+    }
+  }
+}
+
+// Newsletter
+.newsletter-section {
+  @apply md:col-span-1;
+
+  .newsletter-title {
+    @apply text-lg font-semibold text-white mb-2;
+  }
+
+  .newsletter-description {
+    @apply text-gray-400 mb-4;
+  }
+
+  .newsletter-form {
+    @apply flex flex-col sm:flex-row gap-2;
+
+    .newsletter-input {
+      @apply flex-1 px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent;
+
+      &::placeholder {
+        @apply text-gray-400;
+      }
+    }
+
+    .newsletter-button {
+      @apply px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-gray-900 transition-colors duration-200;
+    }
+  }
+}
+
+// Footer Bottom
+.footer-bottom {
+  @apply border-t border-gray-800 py-6 flex flex-col md:flex-row justify-between items-center;
+
+  .footer-copyright {
+    @apply text-gray-400 text-sm mb-4 md:mb-0;
+  }
+
+  .footer-legal {
+    @apply flex space-x-4 rtl:space-x-reverse;
+
+    .legal-link {
+      @apply text-gray-400 hover:text-white text-sm transition-colors duration-200;
+    }
+  }
+}
+
+// RTL Support
+:host-context([dir="rtl"]) {
+  .footer-nav,
+  .footer-legal {
+    direction: rtl;
+  }
+
+  .newsletter-input {
+    text-align: right;
+  }
+}
+
+// Responsive
+@screen sm {
+  .footer-nav {
+    @apply grid-cols-2;
+  }
+}
+
+@screen md {
+  .footer-nav {
+    @apply grid-cols-3;
+  }
+}
