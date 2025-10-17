@@ -1,0 +1,126 @@
+:host {
+  display: block;
+}
+
+// Base card styles
+.card {
+  @apply bg-white rounded-lg transition-all duration-200;
+
+  // Variants
+  &.default {
+    @apply border border-gray-200;
+  }
+
+  &.outline {
+    @apply border-2 border-gray-300;
+  }
+
+  &.elevated {
+    @apply shadow-card border-none;
+  }
+
+  &.flat {
+    @apply bg-gray-50 border-none;
+  }
+
+  // Sizes
+  &.sm {
+    @apply rounded-md;
+  }
+
+  &.md {
+    @apply rounded-lg;
+  }
+
+  &.lg {
+    @apply rounded-xl;
+  }
+
+  // Padding
+  &.padding-none {
+    .card-header,
+    .card-content,
+    .card-footer {
+      @apply p-0;
+    }
+  }
+
+  &.padding-sm {
+    .card-header,
+    .card-content,
+    .card-footer {
+      @apply p-3;
+    }
+  }
+
+  &.padding-md {
+    .card-header,
+    .card-content,
+    .card-footer {
+      @apply p-4;
+    }
+
+    .card-header {
+      @apply pb-2;
+    }
+
+    .card-footer {
+      @apply pt-2;
+    }
+  }
+
+  &.padding-lg {
+    .card-header,
+    .card-content,
+    .card-footer {
+      @apply p-6;
+    }
+
+    .card-header {
+      @apply pb-4;
+    }
+
+    .card-footer {
+      @apply pt-4;
+    }
+  }
+
+  // Hover effect
+  &.card-hover {
+    @apply cursor-pointer;
+
+    &:hover {
+      @apply shadow-hover transform -translate-y-0.5;
+    }
+  }
+}
+
+// Card sections
+.card-header {
+  @apply border-b border-gray-100;
+
+  .card-title {
+    @apply text-lg font-semibold text-gray-900 mb-1;
+  }
+
+  .card-subtitle {
+    @apply text-sm text-gray-600;
+  }
+}
+
+.card-content {
+  @apply text-gray-700;
+}
+
+.card-footer {
+  @apply border-t border-gray-100 bg-gray-50;
+}
+
+// RTL support
+:host-context([dir="rtl"]) {
+  .card-header,
+  .card-content,
+  .card-footer {
+    @apply text-right;
+  }
+}

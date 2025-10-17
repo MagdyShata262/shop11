@@ -1,1 +1,21 @@
-<p>card works!</p>
+
+<div 
+  [class]="cardClasses"
+  [class.card-hover]="hoverEffect">
+  
+  <!-- Header -->
+  <div class="card-header" *ngIf="title || subtitle">
+    <h3 class="card-title" *ngIf="title">{{ title }}</h3>
+    <p class="card-subtitle" *ngIf="subtitle">{{ subtitle }}</p>
+  </div>
+
+  <!-- Content -->
+  <div class="card-content">
+    <ng-content></ng-content>
+  </div>
+
+  <!-- Footer -->
+  <div class="card-footer" *ngIf="showFooter">
+    <ng-content select="[footer]"></ng-content>
+  </div>
+</div>
