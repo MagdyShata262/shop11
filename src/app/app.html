@@ -1,9 +1,20 @@
-<button
-  class="bg-blue-500 hover:bg-blue-700 text-white font-bold text-danger py-2 px-4 rounded"
->
-  Button
+<!-- Using custom colors and shadows -->
+<div class="bg-primary-500 text-white p-6 rounded-4xl shadow-glow-primary animate-fade-in">
+  Enhanced component with custom styles
+</div>
+
+<!-- Using custom animations -->
+<button class="btn-primary animate-bounce-soft">
+  Animated Button
 </button>
-<div class="bg-primary-500 text-danger p-4 rounded-xl shadow-card">
-  هذا مكوّن باستخدام Tailwind!
+
+<!-- Using custom utilities -->
+<div class="card text-shadow-md backdrop-blur-soft">
+  Card with text shadow and backdrop blur
+</div>
+
+<!-- RTL support for Arabic text -->
+<div class="bg-success-500 text-white p-4 rounded-xl text-right" dir="rtl">
+  !هذا مكوّن محسّن باستخدام Tailwind
 </div>
 <router-outlet></router-outlet>
