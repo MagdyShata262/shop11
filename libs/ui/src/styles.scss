@@ -1,0 +1,76 @@
+
+
+/* You can add global styles to this file, and also import other style files */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+// Custom component classes
+@layer components {
+  .btn-primary {
+    @apply bg-primary-500 hover:bg-primary-600 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-opacity-50;
+  }
+  
+  .btn-danger {
+    @apply bg-danger-500 hover:bg-danger-600 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-danger-500 focus:ring-opacity-50;
+  }
+  
+  .card {
+    @apply bg-white rounded-xl shadow-card p-6 border border-gray-100;
+  }
+  
+  .input-primary {
+    @apply w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-200;
+  }
+}
+
+// Custom utilities
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+:host {
+  display: inline-block;
+}
+
+// Base button styles
+button {
+  @apply inline-flex items-center justify-center font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2;
+
+  // Disabled state
+  &:disabled {
+    @apply opacity-50 cursor-not-allowed;
+  }
+}
+
+// Variant styles
+.primary {
+  @apply bg-primary-500 text-white hover:bg-primary-600 focus:ring-primary-500;
+}
+
+.secondary {
+  @apply bg-secondary-500 text-white hover:bg-secondary-600 focus:ring-secondary-500;
+}
+
+.outline {
+  @apply border border-gray-300 text-gray-700 hover:bg-gray-50 focus:ring-primary-500;
+}
+
+.ghost {
+  @apply text-gray-700 hover:bg-gray-100 focus:ring-primary-500;
+}
+
+// Size styles
+.sm {
+  @apply px-3 py-1.5 text-sm;
+}
+
+.md {
+  @apply px-4 py-2 text-base;
+}
+
+.lg {
+  @apply px-6 py-3 text-lg;
+}

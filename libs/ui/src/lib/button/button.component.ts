@@ -1,17 +1,3 @@
-// import { CommonModule } from '@angular/common';
-// import { ChangeDetectionStrategy, Component } from '@angular/core';
-
-// @Component({
-//   selector: 'ui-button',
-//   imports: [CommonModule],
-//   standalone: true,
-//   templateUrl: './button.component.html',
-//   styleUrl: './button.component.scss',
-//   changeDetection: ChangeDetectionStrategy.OnPush
-// })
-// export class ButtonComponent {
-
-// }
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -20,7 +6,8 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './button.component.html',
-  styleUrls: ['./button.component.scss'], // ملاحظة: styleUrls (جمع)
+   styleUrl: './button.component.scss',
+  
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ButtonComponent {
@@ -28,4 +15,12 @@ export class ButtonComponent {
   @Input() variant: 'primary' | 'secondary' | 'outline' | 'ghost' = 'primary';
   @Input() size: 'sm' | 'md' | 'lg' = 'md';
   @Input() disabled = false;
+
+  get buttonClasses(): string {
+    return [
+      this.variant,
+      this.size,
+      this.disabled ? 'opacity-50 cursor-not-allowed' : ''
+    ].join(' ').trim();
+  }
 }

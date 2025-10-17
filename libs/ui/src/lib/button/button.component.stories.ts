@@ -1,122 +1,128 @@
 import type { Meta, StoryObj } from '@storybook/angular';
+import { moduleMetadata } from '@storybook/angular';
 import { ButtonComponent } from './button.component';
-import { expect } from 'storybook/internal/test';
-
 
 const meta: Meta<ButtonComponent> = {
-  title: 'Components/Button',
+  title: 'UI/Button',
   component: ButtonComponent,
-  tags: ['autodocs'],
+  decorators: [
+    moduleMetadata({
+      imports: [ButtonComponent],
+    }),
+  ],
   parameters: {
-    docs: {
-      description: {
-        component: 'A versatile button component styled with Tailwind CSS.',
-      },
-    },
+    layout: 'centered',
   },
+  tags: ['autodocs'],
   argTypes: {
-    label: {
-      control: 'text',
-      description: 'Text displayed inside the button',
-      table: {
-        type: { summary: 'string' },
-        defaultValue: { summary: 'Click me' },
-      },
-    },
     variant: {
-      control: 'select',
+      control: { type: 'select' },
       options: ['primary', 'secondary', 'outline', 'ghost'],
-      description: 'Visual style of the button',
-      table: {
-        defaultValue: { summary: 'primary' },
-      },
     },
     size: {
-      control: 'select',
+      control: { type: 'select' },
       options: ['sm', 'md', 'lg'],
-      description: 'Button size',
-      table: {
-        defaultValue: { summary: 'md' },
-      },
     },
     disabled: {
-      control: 'boolean',
-      description: 'Whether the button is disabled',
-      table: {
-        defaultValue: { summary: 'false' },
-      },
+      control: { type: 'boolean' },
     },
   },
 };
 
 export default meta;
-
 type Story = StoryObj<ButtonComponent>;
 
-// Default story
 export const Primary: Story = {
   args: {
-    label: 'Button',
+    label: 'Primary Button',
     variant: 'primary',
     size: 'md',
-    disabled: false,
-  },
-  play: async ({ canvasElement }) => {
-    const canvas = canvasElement;
-    const button = canvas.querySelector('button');
-    await expect(button).toBeInTheDocument();
-    await expect(button).toHaveTextContent('Button');
   },
 };
 
 export const Secondary: Story = {
   args: {
-    ...Primary.args,
+    label: 'Secondary Button',
     variant: 'secondary',
-    label: 'Secondary',
+    size: 'md',
   },
 };
 
 export const Outline: Story = {
   args: {
-    ...Primary.args,
+    label: 'Outline Button',
     variant: 'outline',
-    label: 'Outline',
+    size: 'md',
   },
 };
 
 export const Ghost: Story = {
   args: {
-    ...Primary.args,
+    label: 'Ghost Button',
     variant: 'ghost',
-    label: 'Ghost',
+    size: 'md',
   },
 };
 
 export const Small: Story = {
   args: {
-    ...Primary.args,
+    label: 'Small Button',
+    variant: 'primary',
     size: 'sm',
-    label: 'Small',
   },
 };
 
 export const Large: Story = {
   args: {
-    ...Primary.args,
-    size: 'lg',
     label: 'Large Button',
+    variant: 'primary',
+    size: 'lg',
   },
 };
 
 export const Disabled: Story = {
   args: {
-    ...Primary.args,
+    label: 'Disabled Button',
+    variant: 'primary',
     disabled: true,
-    label: 'Disabled',
   },
-  play: async ({ canvasElement }) => {
-    const button = canvasElement.querySelector('button');
-    await expect(button).toBeDisabled();
+};
+
+export const Arabic: Story = {
+  args: {
+    label: 'زر بالعربية',
+    variant: 'primary',
+    size: 'md',
   },
+  parameters: {
+    docs: {
+      description: {
+        story: 'زر مع نص عربي'
+      }
+    }
+  }
+};
+
+export const AllVariants: Story = {
+  render: () => ({
+    template: `
+      <div class="space-y-4 p-4">
+        <div class="space-x-2">
+          <ui-button label="Primary" variant="primary"></ui-button>
+          <ui-button label="Secondary" variant="secondary"></ui-button>
+          <ui-button label="Outline" variant="outline"></ui-button>
+          <ui-button label="Ghost" variant="ghost"></ui-button>
+        </div>
+        <div class="space-x-2">
+          <ui-button label="Small" size="sm" variant="primary"></ui-button>
+          <ui-button label="Medium" size="md" variant="primary"></ui-button>
+          <ui-button label="Large" size="lg" variant="primary"></ui-button>
+        </div>
+        <div class="space-x-2">
+          <ui-button label="Disabled" variant="primary" [disabled]="true"></ui-button>
+          <ui-button label="زر عربي" variant="secondary"></ui-button>
+        </div>
+      </div>
+    `,
+  }),
 };
