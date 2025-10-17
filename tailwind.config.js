@@ -9,7 +9,6 @@ module.exports = {
   ],
   theme: {
     extend: {
-      // Extended color palette
       colors: {
         primary: {
           50: '#f0f9ff',
@@ -61,20 +60,17 @@ module.exports = {
         }
       },
       
-      // Extended spacing scale
       spacing: {
         '18': '4.5rem',
         '88': '22rem',
         '128': '32rem',
       },
       
-      // Extended borderRadius
       borderRadius: {
         '4xl': '2rem',
         '5xl': '2.5rem',
       },
       
-      // Custom box shadows
       boxShadow: {
         'soft': '0 2px 15px -3px rgba(0, 0, 0, 0.07), 0 10px 20px -2px rgba(0, 0, 0, 0.04)',
         'card': '0 4px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
@@ -82,14 +78,12 @@ module.exports = {
         'glow-primary': '0 0 25px -5px rgba(14, 165, 233, 0.4)',
       },
       
-      // Custom animations
       animation: {
         'fade-in': 'fadeIn 0.5s ease-in-out',
         'slide-up': 'slideUp 0.3s ease-out',
         'bounce-soft': 'bounceSoft 2s infinite',
       },
       
-      // Keyframes for animations
       keyframes: {
         fadeIn: {
           '0%': { opacity: '0' },
@@ -105,13 +99,10 @@ module.exports = {
         },
       },
       
-      // Custom font sizes
       fontSize: {
         'xxs': '0.625rem',
-        '2xs': '0.5rem',
       },
       
-      // Extended z-index scale
       zIndex: {
         '60': '60',
         '70': '70',
@@ -122,53 +113,8 @@ module.exports = {
     },
   },
   
-  // Variants
-  variants: {
-    extend: {
-      opacity: ['disabled'],
-      cursor: ['disabled'],
-      backgroundColor: ['active'],
-      textColor: ['active'],
-    },
-  },
-  
-  // Plugins
   plugins: [
-    require('@tailwindcss/forms')({
-      strategy: 'class',
-    }),
-    require('@tailwindcss/typography'),
-    require('@tailwindcss/aspect-ratio'),
-    
-    // Custom plugin for additional utilities
-    function({ addUtilities, theme }) {
-      const newUtilities = {
-        '.text-shadow': {
-          textShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
-        },
-        '.text-shadow-md': {
-          textShadow: '0 4px 8px rgba(0, 0, 0, 0.12), 0 2px 4px rgba(0, 0, 0, 0.08)',
-        },
-        '.text-shadow-lg': {
-          textShadow: '0 15px 30px rgba(0, 0, 0, 0.11), 0 5px 15px rgba(0, 0, 0, 0.08)',
-        },
-        '.backdrop-blur-soft': {
-          backdropFilter: 'blur(8px)',
-        },
-      }
-      addUtilities(newUtilities, ['responsive', 'hover'])
-    },
+    // أزلنا الـ plugins المسببة للمشكلة
+    // يمكنك إضافة plugins لاحقاً بعد حل التضارب
   ],
-  
-  // Dark mode configuration
-  darkMode: 'class', // or 'media' for system preference
-  
-  // Important configuration (useful for overriding other styles)
-  important: false, // set to true if you need to override other CSS frameworks
-  
-  // Core plugins configuration (optional - remove unused ones for smaller bundle)
-  corePlugins: {
-    float: false, // disable if you don't use float utilities
-    clear: false, // disable if you don't use clear utilities
-  },
 }
