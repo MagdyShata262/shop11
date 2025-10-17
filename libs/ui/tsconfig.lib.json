@@ -24,7 +24,9 @@
     "src/**/*.test.jsx",
     "src/**/*.spec.jsx",
     "**/*.stories.ts",
-    "**/*.stories.js"
+    "**/*.stories.js",  "include",
+    "src/**/*", "src/types.d.ts"
+
   ],
   "include": ["src/**/*.ts"]
 }

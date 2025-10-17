@@ -19,7 +19,7 @@
       "options": {
         "project": "libs/ui/ng-package.json",
         "tsConfig": "libs/ui/tsconfig.lib.json",
-        "styles": ["libs/ui/src/styles/tailwind.css"]
+        "styles": ["libs/src/styles/tailwind.css"]
       },
       "configurations": {
         "production": {
@@ -50,6 +50,7 @@
         "port": 4400,
         "configDir": "libs/ui/.storybook",
         "browserTarget": "ui:build-storybook",
+            "styles": ["libs/src/styles/tailwind.css"],
         "compodoc": false
       },
       "configurations": {
@@ -65,7 +66,7 @@
         "outputDir": "dist/storybook/ui",
         "configDir": "libs/ui/.storybook",
         "browserTarget": "ui:build-storybook",
-        "styles": ["libs/ui/src/styles/tailwind.css"],
+        "styles": ["libs/src/styles/tailwind.css"],
         "compodoc": false
       },
       "configurations": {
