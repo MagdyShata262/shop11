@@ -34,9 +34,17 @@
         left: 0;
         right: 0;
         z-index: 100;
+        animation: slideDown 0.3s ease-out;
+    }
 
-        top: 0;
+    @keyframes slideDown {
+        from {
+            transform: translateY(-100%);
+        }
 
+        to {
+            transform: translateY(0);
+        }
     }
 }
 
