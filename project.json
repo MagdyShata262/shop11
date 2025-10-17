@@ -14,7 +14,7 @@
         "outputPath": "dist/shop",
         "browser": "./src/main.ts",
         "polyfills": ["zone.js"],
-        "styles": ["libs/ui/src/styles/tailwind.css"],
+        
         "tsConfig": "tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "assets": [
