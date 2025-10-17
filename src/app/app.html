@@ -2,44 +2,11 @@
 <!-- Main App Container -->
 <div class="min-h-screen bg-gray-50">
   <!-- Header -->
-  <header class="bg-white shadow-sm border-b">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex justify-between items-center py-4">
-        <h1 class="text-2xl font-bold text-gray-900">{{ title }}</h1>
-        <nav class="flex space-x-4">
-          <a
-            routerLink="/"
-            class="text-gray-600 hover:text-gray-900 transition-colors"
-            >الرئيسية</a
-          >
-          <a
-            routerLink="/products"
-            class="text-gray-600 hover:text-gray-900 transition-colors"
-            >المنتجات</a
-          >
-          <a
-            routerLink="/about"
-            class="text-gray-600 hover:text-gray-900 transition-colors"
-            >حول</a
-          >
-        </nav>
-      </div>
-    </div>
-  </header>
 
   <!-- Main Content -->
-  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <main class="max-w-screen mx-auto px-4 sm:px-6 lg:px-8 py-8">
     <!-- Demo Components Section -->
     <section class="space-y-6 mb-8">
-      <h2 class="text-xl font-semibold text-gray-800">مكونات التصميم</h2>
-
-      <!-- Using custom colors and shadows -->
-      <div
-        class="bg-primary-500 text-white p-6 rounded-4xl shadow-glow-primary animate-fade-in"
-      >
-        Enhanced component with custom styles
-      </div>
-
       <!-- Using custom animations -->
       <div class="flex space-x-4 rtl:space-x-reverse">
         <button class="btn-primary animate-bounce-soft">Animated Button</button>
@@ -55,12 +22,6 @@
       </div>
 
       <!-- RTL support for Arabic text -->
-      <div
-        class="bg-success-500 text-white p-4 rounded-xl text-right"
-        dir="rtl"
-      >
-        !هذا مكوّن محسّن باستخدام Tailwind
-      </div>
     </section>
 
     <!-- Router Outlet -->
@@ -68,14 +29,5 @@
       <router-outlet></router-outlet>
     </section>
   </main>
-
-  <!-- Footer -->
-  <footer class="bg-gray-800 text-white mt-12">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <div class="text-center">
-        <p>&copy; 2024 {{ title }}. جميع الحقوق محفوظة.</p>
-      </div>
-    </div>
-  </footer>
 </div>
 <ui-footer></ui-footer>
