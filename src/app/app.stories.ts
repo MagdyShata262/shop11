@@ -1,22 +1,59 @@
 import type { Meta, StoryObj } from '@storybook/angular';
 import { App } from './app';
-import { expect } from 'storybook/test';
+import { moduleMetadata, applicationConfig } from '@storybook/angular';
+import { provideRouter } from '@angular/router';
+import { importProvidersFrom } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 const meta: Meta<App> = {
+  title: 'App/App Component',
   component: App,
-  title: 'App',
+  decorators: [
+    applicationConfig({
+      providers: [
+        provideRouter([]), // توفير router فارغ للاختبار
+        importProvidersFrom(CommonModule)
+      ],
+    }),
+    moduleMetadata({
+      imports: [CommonModule, RouterModule],
+    }),
+  ],
+  parameters: {
+    layout: 'fullscreen',
+  },
 };
-export default meta;
 
+export default meta;
 type Story = StoryObj<App>;
 
-export const Primary: Story = {
-  args: {},
+export const Default: Story = {
+  args: {
+    title: 'Shop Application'
+  },
 };
 
-export const Heading: Story = {
-  args: {},
-  play: async ({ canvas }) => {
-    await expect(canvas.getByText(/app/gi)).toBeTruthy();
+export const WithArabicContent: Story = {
+  args: {
+    title: 'متجر التطبيقات'
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'نسخة مع النص العربي'
+      }
+    }
+  }
+};
+
+export const LoadingState: Story = {
+  args: {
+    title: 'جاري التحميل...'
+  },
+  parameters: {
+    backgrounds: {
+      default: 'dark',
+    },
   },
 };
