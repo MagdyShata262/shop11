@@ -1,7 +1,6 @@
 // libs/ui/.storybook/preview.ts
 
 import type { Preview } from '@storybook/angular';
-import '../src/styles/tailwind.css';
 
 const preview: Preview = {
   parameters: {
