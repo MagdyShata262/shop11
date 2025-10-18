@@ -1,21 +1,114 @@
+<div
+  class="rounded-lg border shadow-sm overflow-hidden bg-white border-slate-200 shadow-slate-950/5 w-96 hover:shadow-lg hover:scale-105 transition-all duration-300"
+  [class]="customClass"
+>
+  <!-- Image Container -->
+  <div class="relative" *ngIf="product !== undefined">
+    <img
+      [src]="product?.imageUrl"
+      [alt]="product?.name"
+      class="w-[calc(100%-16px)] rounded m-2 h-96 object-cover"
+    />
 
-<div 
-  [class]="cardClasses"
-  [class.card-hover]="hoverEffect">
-  
-  <!-- Header -->
-  <div class="card-header" *ngIf="title || subtitle">
-    <h3 class="card-title" *ngIf="title">{{ title }}</h3>
-    <p class="card-subtitle" *ngIf="subtitle">{{ subtitle }}</p>
+    <!-- Discount Badge -->
+    <!-- <div
+      *ngIf="product?.discount"
+      class="absolute top-4 right-4 bg-red-500 text-white px-2 py-1 rounded-full text-sm font-semibold"
+    >
+      -{{ product.discount }}%
+    </div> -->
+
+    <!-- Out of Stock Overlay -->
+    <div
+      *ngIf="!product?.inStock"
+      class="absolute inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center m-2 rounded"
+    >
+      <span class="text-white font-bold text-lg bg-gray-900 px-4 py-2 rounded">
+        Out of Stock
+      </span>
+    </div>
+
+    <!-- Rating -->
+    <div
+      *ngIf="product?.rating"
+      class="absolute bottom-4 left-4 bg-white bg-opacity-90 px-2 py-1 rounded-full flex items-center"
+    >
+      <span class="text-yellow-500">★</span>
+      <span class="text-sm font-semibold ml-1">{{ product.rating }}</span>
+    </div>
   </div>
 
   <!-- Content -->
-  <div class="card-content">
-    <ng-content></ng-content>
+  <div class="w-full h-max rounded px-3.5 py-2.5" *ngIf="product !== undefined">
+    <!-- Category -->
+    <div *ngIf="product?.category" class="mb-1">
+      <span class="text-xs text-slate-500 uppercase tracking-wide">{{
+        product.category
+      }}</span>
+    </div>
+
+    <!-- Title and Price -->
+    <div class="mb-2 flex items-center justify-between">
+      <h6
+        class="font-sans antialiased font-bold text-base md:text-lg lg:text-xl text-current line-clamp-1"
+      >
+        {{ product?.name }}
+      </h6>
+      <div class="flex items-center gap-2">
+        <!-- <h6
+          *ngIf="product?.discount"
+          class="font-sans antialiased text-sm text-slate-400 line-through"
+        >
+          ${{ calculateOriginalPrice() }}
+        </h6> -->
+        <h6
+          class="font-sans antialiased font-bold text-base md:text-lg lg:text-xl text-current"
+        >
+          ${{ product?.price }}
+        </h6>
+      </div>
+    </div>
+
+    <!-- Description -->
+    <p class="font-sans antialiased text-base text-slate-600 line-clamp-2 mb-3">
+      {{ product?.description }}
+    </p>
+
+    <!-- Custom Content Slot -->
+    <ng-container *ngIf="customContent">
+      <ng-container *ngTemplateOutlet="customContent"></ng-container>
+    </ng-container>
   </div>
 
-  <!-- Footer -->
-  <div class="card-footer" *ngIf="showFooter">
-    <ng-content select="[footer]"></ng-content>
+  <!-- Actions -->
+  <div class="w-full px-3.5 pt-2 pb-3.5 rounded" *ngIf="product !== undefined">
+    <button
+      [disabled]="!product?.inStock"
+      class="w-full inline-flex items-center justify-center border align-middle select-none font-sans font-medium text-center transition-all duration-300 ease-in disabled:opacity-50 disabled:shadow-none disabled:cursor-not-allowed rounded-md py-3 px-4 shadow-sm hover:shadow-md bg-slate-900 border-slate-900 text-white hover:bg-slate-800 hover:border-slate-800 disabled:bg-slate-300 disabled:border-slate-300"
+    >
+      {{ product?.inStock ? buttonText : 'Out of Stock' }}
+    </button>
+
+    <!-- Additional Actions -->
+    <div *ngIf="showActions" class="flex gap-2 mt-2">
+      <button
+        class="flex-1 inline-flex items-center justify-center border align-middle select-none font-sans font-medium text-center transition-all duration-300 ease-in rounded-md py-2 px-3 text-sm border-slate-300 text-slate-700 hover:bg-slate-50"
+      >
+        Quick View
+      </button>
+      <button
+        class="inline-flex items-center justify-center border align-middle select-none font-sans font-medium text-center transition-all duration-300 ease-in rounded-md p-2 border-slate-300 text-slate-700 hover:bg-slate-50"
+      >
+        ♡
+      </button>
+    </div>
   </div>
 </div>
+
+<button
+  [disabled]="!product?.inStock"
+  (click)="addToCart.emit(product)"
+  class="w-full inline-flex items-center justify-center border align-middle select-none font-sans font-medium text-center transition-all duration-300 ease-in disabled:opacity-50 disabled:shadow-none disabled:cursor-not-allowed rounded-md py-3 px-4 shadow-sm hover:shadow-md bg-slate-900 border-slate-900 text-white hover:bg-slate-800 hover:border-slate-800 disabled:bg-slate-300 disabled:border-slate-300"
+>
+  {{ product?.inStock ? buttonText : 'Out of Stock' }}
+</button>

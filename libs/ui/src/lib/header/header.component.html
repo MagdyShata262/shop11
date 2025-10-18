@@ -1,4 +1,4 @@
-<nav class="relative bg-gray-800">
+<nav class="fixed top-0 left-0 right-0 z-50 bg-gray-800">
   <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
     <div class="relative flex h-16 items-center justify-between">
       <!-- Mobile menu button -->
@@ -147,7 +147,7 @@
   </div>
 
   <!-- Mobile menu -->
-  <div *ngIf="isMobileMenuOpen" class="sm:hidden">
+  <div *ngIf="isMobileMenuOpen" class="sm:hidden bg-gray-800">
     <div class="space-y-1 px-2 pt-2 pb-3">
       <a
         href="#"

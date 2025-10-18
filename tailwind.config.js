@@ -57,33 +57,37 @@ module.exports = {
           700: '#15803d',
           800: '#166534',
           900: '#14532d',
-        }
+        },
       },
-      
+      boxShadow: {
+        card: '0 4px 12px rgba(0, 0, 0, 0.1)',
+        hover: '0 6px 16px rgba(0, 0, 0, 0.15)',
+      },
+
       spacing: {
-        '18': '4.5rem',
-        '88': '22rem',
-        '128': '32rem',
+        18: '4.5rem',
+        88: '22rem',
+        128: '32rem',
       },
-      
+
       borderRadius: {
         '4xl': '2rem',
         '5xl': '2.5rem',
       },
-      
+
       boxShadow: {
-        'soft': '0 2px 15px -3px rgba(0, 0, 0, 0.07), 0 10px 20px -2px rgba(0, 0, 0, 0.04)',
-        'card': '0 4px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
-        'glow': '0 0 20px -5px rgba(59, 130, 246, 0.3)',
+        soft: '0 2px 15px -3px rgba(0, 0, 0, 0.07), 0 10px 20px -2px rgba(0, 0, 0, 0.04)',
+        card: '0 4px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
+        glow: '0 0 20px -5px rgba(59, 130, 246, 0.3)',
         'glow-primary': '0 0 25px -5px rgba(14, 165, 233, 0.4)',
       },
-      
+
       animation: {
         'fade-in': 'fadeIn 0.5s ease-in-out',
         'slide-up': 'slideUp 0.3s ease-out',
         'bounce-soft': 'bounceSoft 2s infinite',
       },
-      
+
       keyframes: {
         fadeIn: {
           '0%': { opacity: '0' },
@@ -98,23 +102,24 @@ module.exports = {
           '50%': { transform: 'translateY(-5px)' },
         },
       },
-      
+
       fontSize: {
-        'xxs': '0.625rem',
+        xxs: '0.625rem',
       },
-      
+
       zIndex: {
-        '60': '60',
-        '70': '70',
-        '80': '80',
-        '90': '90',
-        '100': '100',
+        60: '60',
+        70: '70',
+        80: '80',
+        90: '90',
+        100: '100',
       },
     },
   },
-  
+
   plugins: [
     // أزلنا الـ plugins المسببة للمشكلة
     // يمكنك إضافة plugins لاحقاً بعد حل التضارب
   ],
-}
+  content: ['./apps/**/*.{html,ts}', './libs/**/*.{html,ts}'],
+};

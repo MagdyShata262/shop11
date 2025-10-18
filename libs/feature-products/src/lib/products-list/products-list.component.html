@@ -1,89 +1,236 @@
-<p>products-list works!</p>
+<div class="min-h-screen bg-gray-50 py-8" dir="rtl">
+  <div class="container mx-auto px-4">
+    <!-- العنوان الرئيسي -->
+    <div class="text-center mb-12">
+      <h1 class="text-4xl font-bold text-gray-900 mb-4">منتجاتنا</h1>
+      <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+        اكتشف مجموعة منتجاتنا المميزة من FakeStore API
+      </p>
+    </div>
 
-<h2>🛒 Our Products</h2>
-
-<!-- libs/ui/src/lib/products-list/products-list.component.html -->
-
-<div class="products-container">
-  <!-- حالة التحميل -->
-  <div *ngIf="loading$ | async" class="loading">
-    <p>جارٍ تحميل المنتجات...</p>
-  </div>
-
-  <!-- حالة الخطأ -->
-  <div *ngIf="error$ | async as error" class="error">
-    <p>حدث خطأ: {{ error }}</p>
-  </div>
-
-  <!-- قائمة المنتجات -->
-  <div
-    *ngIf="products$ | async as products; else noProducts"
-    class="products-grid"
-  >
+    <!-- حالة التحميل -->
     <div
-      *ngFor="let product of products"
-      class="product-card"
-      [routerLink]="['/products', product.id]"
+      *ngIf="loading$ | async"
+      class="flex flex-col items-center justify-center py-20"
     >
-      <img [src]="product.image" [alt]="product.title" class="product-image" />
-      <div class="product-info">
-        <h3 class="product-title">{{ product.title }}</h3>
-        <p class="product-category">{{ product.category }}</p>
-        <p class="product-description">
-          {{ product.description | slice : 0 : 100 }}...
-        </p>
-        <div class="product-footer">
-          <span class="product-price"
-            >${{ product.price | number : '1.2-2' }}</span
-          >
+      <div
+        class="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-blue-500 mb-4"
+      ></div>
+      <p class="text-gray-600 text-lg">جاري تحميل المنتجات...</p>
+    </div>
+
+    <!-- حالة الخطأ -->
+    <div *ngIf="error$ | async as error" class="max-w-2xl mx-auto mb-8">
+      <div class="bg-red-50 border border-red-200 rounded-xl p-6 text-center">
+        <div class="text-red-500 text-4xl mb-3">⚠️</div>
+        <h3 class="text-red-800 font-bold text-xl mb-2">حدث خطأ</h3>
+        <p class="text-red-600">{{ error }}</p>
+        <button
+          (click)="reloadProducts()"
+          class="mt-4 bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-lg transition-colors duration-200"
+        >
+          إعادة المحاولة
+        </button>
+      </div>
+    </div>
+
+    <!-- تعيين البيانات لمتغير محلي -->
+    <ng-container
+      *ngIf="{
+        products: products$ | async,
+        loading: loading$ | async,
+        error: error$ | async
+      } as data"
+    >
+      <!-- شبكة المنتجات -->
+      <div
+        *ngIf="
+          !data.loading &&
+          !data.error &&
+          data.products &&
+          data.products.length > 0
+        "
+        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+      >
+        <!-- المنتج الفردي -->
+        <div
+          *ngFor="let product of data.products"
+          class="bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 hover:border-blue-100 group"
+        >
+          <!-- صورة المنتج - تم تقليل الحجم -->
+          <div class="relative overflow-hidden bg-gray-100">
+            <img
+              [src]="product.image"
+              [alt]="product.title"
+              class="w-full h-40 object-contain p-4 group-hover:scale-105 transition-transform duration-300"
+            />
+
+            <!-- شارة الخصم (افتراضية) -->
+            <div
+              *ngIf="hasDiscount(product)"
+              class="absolute top-2 left-2 bg-red-500 text-white px-2 py-1 rounded-full text-xs font-bold"
+            >
+              {{ getDiscountPercentage(product) }}% خصم
+            </div>
+
+            <!-- حالة نفاد المخزون (افتراضية) -->
+            <div
+              *ngIf="!isInStock(product)"
+              class="absolute inset-0 bg-gray-900 bg-opacity-60 flex items-center justify-center"
+            >
+              <div class="bg-white rounded-lg px-4 py-3 text-center">
+                <span class="text-2xl text-gray-500 mb-1">📦</span>
+                <p class="text-gray-800 font-bold text-sm">نفد من المخزون</p>
+              </div>
+            </div>
+
+            <!-- التقييم -->
+            <div
+              class="absolute bottom-2 right-2 bg-white bg-opacity-95 backdrop-blur-sm px-2 py-1 rounded-full flex items-center shadow-sm"
+            >
+              <span class="text-yellow-500 text-xs ml-1">★</span>
+              <span class="text-xs font-bold text-gray-800">{{
+                product.rating.rate | number : '1.1-1'
+              }}</span>
+              <span class="text-xs text-gray-500 mr-1"
+                >({{ product.rating.count }})</span
+              >
+            </div>
+          </div>
+
+          <!-- محتوى البطاقة -->
+          <div class="p-4">
+            <!-- الفئة -->
+            <div class="mb-2">
+              <span
+                class="text-xs font-medium text-blue-600 bg-blue-50 px-2 py-1 rounded-full"
+              >
+                {{ product.category }}
+              </span>
+            </div>
+
+            <!-- العنوان والسعر -->
+            <div class="flex justify-between items-start mb-3">
+              <h3
+                class="font-bold text-base text-gray-900 line-clamp-2 flex-1 ml-2"
+              >
+                {{ product.title }}
+              </h3>
+              <div class="flex flex-col items-end">
+                <!-- السعر الأصلي في حالة الخصم -->
+                <span
+                  *ngIf="hasDiscount(product)"
+                  class="text-xs text-gray-500 line-through mb-1"
+                >
+                  ${{ product.price | number : '1.2-2' }}
+                </span>
+                <span class="text-lg font-bold text-gray-900">
+                  ${{
+                    hasDiscount(product)
+                      ? (getDiscountedPrice(product) | number : '1.2-2')
+                      : (product.price | number : '1.2-2')
+                  }}
+                </span>
+              </div>
+            </div>
+
+            <!-- الوصف -->
+            <p class="text-gray-600 text-xs leading-relaxed mb-3 line-clamp-2">
+              {{ product.description }}
+            </p>
+
+            <!-- أزرار الإجراءات -->
+            <div class="space-y-2">
+              <!-- زر الإضافة إلى السلة -->
+              <button
+                (click)="onAddToCart(product)"
+                [disabled]="!isInStock(product)"
+                class="w-full py-2 px-3 bg-gradient-to-l from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 disabled:from-gray-300 disabled:to-gray-400 text-white rounded-lg font-semibold transition-all duration-200 disabled:cursor-not-allowed flex items-center justify-center gap-2 text-sm shadow-md hover:shadow-lg disabled:shadow-none"
+              >
+                <span>🛒</span>
+                {{ isInStock(product) ? 'إضافة إلى السلة' : 'غير متوفر' }}
+              </button>
+
+              <!-- الأزرار الإضافية -->
+              <div class="flex gap-2">
+                <button
+                  (click)="onProductClick(product.id)"
+                  class="flex-1 py-1 px-2 border border-gray-200 hover:border-blue-500 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-md font-medium text-xs transition-all duration-200 flex items-center justify-center gap-1"
+                >
+                  <span>👁️</span>
+                  عرض سريع
+                </button>
+                <button
+                  class="w-8 h-8 border border-gray-200 hover:border-red-300 text-gray-500 hover:text-red-500 hover:bg-red-50 rounded-md transition-all duration-200 flex items-center justify-center text-xs"
+                >
+                  <span>❤️</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- حالة عدم وجود منتجات -->
+      <div
+        *ngIf="
+          !data.loading &&
+          !data.error &&
+          data.products &&
+          data.products.length === 0
+        "
+        class="text-center py-20"
+      >
+        <div class="max-w-md mx-auto">
+          <div class="text-gray-300 text-6xl mb-6">📦</div>
+          <h3 class="text-2xl font-bold text-gray-700 mb-3">لا توجد منتجات</h3>
+          <p class="text-gray-500 mb-8">
+            لم يتم العثور على أي منتجات في الوقت الحالي
+          </p>
           <button
-            class="add-to-cart-btn"
-            (click)="onAddToCart(product); $event.stopPropagation()"
+            (click)="reloadProducts()"
+            class="bg-blue-500 hover:bg-blue-600 text-white px-8 py-3 rounded-xl font-semibold transition-colors duration-200 inline-flex items-center gap-2"
           >
-            أضف إلى السلة
+            <span>🔄</span>
+            إعادة التحميل
           </button>
         </div>
       </div>
-    </div>
-  </div>
 
-  <!-- حالة عدم وجود منتجات -->
-  <ng-template #noProducts>
-    <div class="no-products">
-      <p>لا توجد منتجات متاحة حاليًا.</p>
-    </div>
-  </ng-template>
-</div>
-
-<!-- <div class="products-container">
-  <h2>🛒 Our Products</h2>
-  
-  <div *ngIf="loading$ | async" class="loading">
-    Loading products...
-  </div>
-
-  <div *ngIf="error$ | async as error" class="error">
-    {{ error }}
-  </div>
-
-  <div class="products-grid">
-    <project-magdy-card 
-      *ngFor="let product of products$ | async" 
-      class="product-card"
-      [routerLink]="[product.id]"
-    >
-      <img [src]="product.image" [alt]="product.title" class="product-image">
-      <h3 class="product-title">{{ product.title }}</h3>
-      <p class="product-category">{{ product.category }}</p>
-      <p class="product-price">{{ product.price | currency:'USD' }}</p>
-      <div class="product-rating">
-        ⭐ {{ product.rating.rate }} ({{ product.rating.count }} reviews)
-      </div>
-      <project-magdy-button 
-        (click)="onAddToCart(product); $event.stopPropagation()"
+      <!-- إحصائيات -->
+      <div
+        *ngIf="
+          !data.loading &&
+          !data.error &&
+          data.products &&
+          data.products.length > 0
+        "
+        class="mt-12 text-center"
       >
-        Add to Cart
-      </project-magdy-button>
-    </project-magdy-card>
+        <div class="bg-white rounded-2xl shadow-sm p-6 max-w-md mx-auto">
+          <h4 class="font-bold text-gray-800 mb-4">إحصائيات المنتجات</h4>
+          <div class="flex justify-around">
+            <div class="text-center">
+              <div class="text-2xl font-bold text-blue-600">
+                {{ data.products.length }}
+              </div>
+              <div class="text-gray-600 text-sm">إجمالي المنتجات</div>
+            </div>
+            <div class="text-center">
+              <div class="text-2xl font-bold text-green-600">
+                {{ getInStockCount(data.products) }}
+              </div>
+              <div class="text-gray-600 text-sm">متوفر بالمخزون</div>
+            </div>
+            <div class="text-center">
+              <div class="text-2xl font-bold text-orange-600">
+                {{ getDiscountCount(data.products) }}
+              </div>
+              <div class="text-gray-600 text-sm">عروض خاصة</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
   </div>
-</div> -->
+</div>

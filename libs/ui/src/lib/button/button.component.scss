@@ -61,3 +61,7 @@ button {
 .lg {
     @apply px-6 py-3 text-lg;
 }
+
+.secondary {
+    @apply bg-gray-500 text-white focus:ring-gray-500;
+}

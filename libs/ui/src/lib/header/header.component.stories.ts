@@ -12,22 +12,6 @@ const meta: Meta<HeaderComponent> = {
   ],
   parameters: {
     layout: 'fullscreen',
-  },
-  tags: ['autodocs'],
-  argTypes: {
-    // يمكنك إضافة argTypes إذا كان لديك Inputs في الكومبوننت
-  },
-};
-
-export default meta;
-type Story = StoryObj<HeaderComponent>;
-
-// القصة الأساسية
-export const Default: Story = {
-  args: {
-    // إذا كان لديك Inputs، ضعها هنا
-  },
-  parameters: {
     docs: {
       description: {
         component:
@@ -35,13 +19,25 @@ export const Default: Story = {
       },
     },
   },
+  tags: ['autodocs'],
 };
 
-// قائمة الجوال مفتوحة
-export const MobileMenuOpen: Story = {
-  args: {
-    // إذا كان لديك Input للتحكم في حالة القائمة
+export default meta;
+type Story = StoryObj<HeaderComponent>;
+
+export const Default: Story = {
+  args: {},
+  parameters: {
+    docs: {
+      description: {
+        story: 'Default header state with all features.',
+      },
+    },
   },
+};
+
+export const MobileMenuOpen: Story = {
+  args: {},
   parameters: {
     viewport: {
       defaultViewport: 'mobile1',
@@ -52,13 +48,23 @@ export const MobileMenuOpen: Story = {
       },
     },
   },
+  render: (args) => ({
+    props: args,
+    template: `
+      <app-header></app-header>
+      <script>
+        // يمكنك إضافة سكريبت لفتح القائمة في Storybook
+        setTimeout(() => {
+          const button = document.querySelector('button[aria-label="Open main menu"]');
+          if (button) button.click();
+        }, 100);
+      </script>
+    `,
+  }),
 };
 
-// dropdown الملف الشخصي مفتوح
 export const ProfileDropdownOpen: Story = {
-  args: {
-    // إذا كان لديك Input للتحكم في حالة dropdown
-  },
+  args: {},
   parameters: {
     docs: {
       description: {
@@ -66,13 +72,22 @@ export const ProfileDropdownOpen: Story = {
       },
     },
   },
+  render: (args) => ({
+    props: args,
+    template: `
+      <app-header></app-header>
+      <script>
+        setTimeout(() => {
+          const profileButton = document.querySelector('button[aria-label="Open user menu"]');
+          if (profileButton) profileButton.click();
+        }, 100);
+      </script>
+    `,
+  }),
 };
 
-// حالة active للقائمة
 export const WithActiveLink: Story = {
-  args: {
-    // إذا كان لديك Input للتحكم في الرابط النشط
-  },
+  args: {},
   parameters: {
     docs: {
       description: {
@@ -82,21 +97,28 @@ export const WithActiveLink: Story = {
   },
 };
 
-// بدون صورة المستخدم
-
-// مع لوجو مختلف
-
-// في header.component.stories.ts
 export const WithoutUserImage: Story = {
   args: {
-    userImage: '',
-    showNotifications: false,
+    // إذا كان لديك @Input() في الكومبوننت
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Header without user profile image.',
+      },
+    },
   },
 };
 
 export const WithCustomLogo: Story = {
   args: {
-    logoUrl: 'https://via.placeholder.com/32x32?text=LOGO',
-    companyName: 'Acme Inc',
+    // إذا كان لديك @Input() في الكومبوننت
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Header with custom company logo.',
+      },
+    },
   },
 };

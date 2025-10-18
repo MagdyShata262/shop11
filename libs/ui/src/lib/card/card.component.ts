@@ -4,9 +4,21 @@ import {
   Component,
   Input,
   ContentChild,
+  Output,
   TemplateRef,
+  EventEmitter,
 } from '@angular/core';
-
+export interface Product {
+  id: string;
+  name: string;
+  price: number;
+  description: string;
+  imageUrl: string;
+  category?: string;
+  rating?: number;
+  discount?: number;
+  inStock?: boolean;
+}
 @Component({
   selector: 'ui-card',
   imports: [CommonModule],
@@ -16,29 +28,35 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CardComponent {
-  @Input() title?: string;
-  @Input() subtitle?: string;
-  @Input() variant: 'default' | 'outline' | 'elevated' | 'flat' = 'default';
-  @Input() size: 'sm' | 'md' | 'lg' = 'md';
-  @Input() padding: 'none' | 'sm' | 'md' | 'lg' = 'md';
-  @Input() hoverEffect = false;
+  // @Input() product?: Product;
+  @Input() buttonText = 'Add to Cart';
+  @Input() showActions = true;
+  @Input() customClass = '';
 
-  @ContentChild('footer', { read: TemplateRef })
-  footerTemplate?: TemplateRef<any>;
+  @Output() addToCart = new EventEmitter<Product>();
+  @Output() quickView = new EventEmitter<Product>();
+  @Output() addToWishlist = new EventEmitter<Product>();
 
-  get cardClasses(): string {
-    return [
-      'card',
-      this.variant,
-      this.size,
-      `padding-${this.padding}`,
-      this.hoverEffect ? 'card-hover' : '',
-    ]
-      .join(' ')
-      .trim();
+  @ContentChild('customContent') customContent?: TemplateRef<any>;
+
+  calculateOriginalPrice(): string {
+    if (!this.product?.discount) return '';
+    const originalPrice =
+      (this.product.price * 100) / (100 - this.product.discount);
+    return originalPrice.toFixed(2);
   }
 
-  get showFooter(): boolean {
-    return !!this.footerTemplate;
-  }
+  product: Product = {
+    id: '1',
+    name: 'Apple AirPods',
+    price: 95.0,
+    description:
+      'With plenty of talk and listen time, voice-activated Siri access, and an available wireless charging case.',
+    imageUrl:
+      'https://images.unsplash.com/photo-1629367494173-c78a56567877?ixlib=rb-4.0.3&auto=format&fit=crop&w=927&q=80',
+    category: 'Electronics',
+    rating: 4.5,
+    discount: 10,
+    inStock: true,
+  };
 }

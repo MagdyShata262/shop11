@@ -4,7 +4,17 @@ const { join } = require('path');
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
+    // المسارات الأساسية للمشروع
+    join(__dirname, 'src/**/*.{html,ts}'),
+
+    // مسارات مكتبة UI
     join(__dirname, 'libs/ui/src/**/*.{html,ts}'),
+
+    // مسارات Storybook
+    join(__dirname, '.storybook/**/*.{js,ts,html}'),
+    join(__dirname, '**/*.stories.@(js,jsx,ts,tsx,mdx)'),
+
+    // التبعيات التلقائية من Nx
     ...createGlobPatternsForDependencies(__dirname),
   ],
   theme: {
