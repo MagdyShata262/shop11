@@ -2,10 +2,10 @@ import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  HostListener,
   Input,
-  Output,
-  EventEmitter,
 } from '@angular/core';
+
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -17,63 +17,38 @@ import { FormsModule } from '@angular/forms';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderComponent {
-  @Input() logo = '🛍️ Shop';
-  @Input() companyName = 'متجر';
-  @Input() navigationItems: NavigationItem[] = [
-    { label: 'الرئيسية', path: '/' },
-    { label: 'المنتجات', path: '/products' },
-    { label: 'العروض', path: '/offers' },
-    { label: 'اتصل بنا', path: '/contact' },
-  ];
-  @Input() user: { name: string; avatar?: string } | null = null;
-  @Input() cartItemsCount = 0;
-  @Input() variant: 'default' | 'transparent' | 'sticky' = 'default';
-  @Input() showSearch = true;
-  @Input() showCart = true;
-  @Input() showUserMenu = true;
-
-  @Output() navigationClick = new EventEmitter<string>();
-  @Output() searchChange = new EventEmitter<string>();
-  @Output() cartClick = new EventEmitter<void>();
-  @Output() userMenuClick = new EventEmitter<void>();
-  @Output() loginClick = new EventEmitter<void>();
+  @Input() userImage =
+    'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80';
+  @Input() logoUrl =
+    'https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500';
+  @Input() companyName = 'Your Company';
+  @Input() showNotifications = true;
 
   isMobileMenuOpen = false;
-  searchQuery = '';
-
-  onNavigationClick(path: string): void {
-    this.navigationClick.emit(path);
-    this.isMobileMenuOpen = false;
-  }
-
-  onSearchChange(query: string): void {
-    this.searchQuery = query;
-    this.searchChange.emit(query);
-  }
-
-  onCartClick(): void {
-    this.cartClick.emit();
-  }
-
-  onUserMenuClick(): void {
-    this.userMenuClick.emit();
-  }
-
-  onLoginClick(): void {
-    this.loginClick.emit();
-  }
+  isProfileMenuOpen = false;
 
   toggleMobileMenu(): void {
     this.isMobileMenuOpen = !this.isMobileMenuOpen;
   }
 
-  get headerClasses(): string {
-    return `header ${this.variant}`;
+  toggleProfileMenu(): void {
+    this.isProfileMenuOpen = !this.isProfileMenuOpen;
   }
-}
 
-export interface NavigationItem {
-  label: string;
-  path: string;
-  children?: NavigationItem[];
+  // إغلاق القوائم عند النقر خارجها
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: Event): void {
+    const target = event.target as HTMLElement;
+
+    if (!target.closest('.relative.ml-3') && this.isProfileMenuOpen) {
+      this.isProfileMenuOpen = false;
+    }
+
+    if (
+      !target.closest('.absolute.inset-y-0.left-0') &&
+      this.isMobileMenuOpen
+    ) {
+      this.isMobileMenuOpen = false;
+    }
+  }
 }
