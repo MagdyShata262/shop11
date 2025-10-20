@@ -1,48 +1,87 @@
-<ui-header></ui-header>
-<!-- Main App Container -->
-<div class="min-h-screen bg-gray-50">
-  <!-- Header -->
-
-  <!-- Main Content -->
-  <main class="max-w-screen mx-auto px-4 sm:px-6 lg:px-8 py-8">
-    <!-- Demo Components Section -->
-    <section class="space-y-6 mb-8">
-      <!-- Using custom animations -->
-      <div class="flex space-x-4 rtl:space-x-reverse">
-        <button class="btn-primary animate-bounce-soft">Animated Button</button>
-        <button class="btn-danger">Danger Button</button>
+<!-- Fixed Navigation Bar -->
+<nav class="fixed top-0 left-0 right-0 z-50 bg-gray-900 text-white shadow-lg">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-16">
+      <!-- Logo / Title -->
+      <div class="flex items-center space-x-2">
+        <a
+          routerLink="/products"
+          class="text-xl font-bold hover:text-indigo-300"
+          >🛒 Products</a
+        >
       </div>
 
-      <!-- Using custom utilities -->
-      <div class="card text-shadow-md backdrop-blur-soft">
-        <h3 class="text-lg font-medium mb-2">Card with custom utilities</h3>
-        <p class="text-gray-600">
-          This card uses custom shadow and backdrop blur effects.
-        </p>
+      <!-- Desktop Navigation -->
+      <div class="hidden md:flex items-center space-x-8">
+        <a
+          routerLink="/cart"
+          class="px-3 py-2 rounded-md text-sm font-medium hover:text-indigo-300 transition-colors"
+          >🛍️ Carts</a
+        >
+        <a
+          routerLink="/users"
+          class="px-3 py-2 hover:text-indigo-300 transition-colors"
+          >👤 Users</a
+        >
+        <a
+          routerLink="/auth"
+          class="px-3 py-2 hover:text-indigo-300 transition-colors"
+          >🔒 Auth</a
+        >
+        <a
+          href="https://fakestoreapi.com/docs"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="px-3 py-2 text-sm text-gray-300 hover:text-white"
+        >
+          📄 API Docs
+        </a>
       </div>
 
-      <!-- RTL support for Arabic text -->
-    </section>
-    <!-- <ui-card 
-  [product]="product"
-  (onAddToCart)="addToCart($event)"
-  (onQuickView)="quickView($event)"
-  (onAddToWishlist)="addToWishlist($event)">
-</ui-card> -->
-
-    <!-- <ui-card [product]="product">
-  <ng-template #customContent>
-    <div class="flex items-center justify-between mt-2">
-      <span class="text-sm text-slate-500">Free Shipping</span>
-      <span class="text-sm text-green-600">In Stock</span>
+      <!-- Mobile Menu Button -->
+      <div class="md:hidden">
+        <button
+          type="button"
+          class="text-white hover:text-indigo-300 p-1 text-xl"
+          (click)="toggleMobileMenu()"
+        >
+          ☰
+        </button>
+      </div>
     </div>
-  </ng-template>
-</ui-card> -->
 
-    <!-- Router Outlet -->
+    <!-- Mobile Menu -->
+    <div
+      *ngIf="isMobileMenuOpen"
+      class="md:hidden pb-3 pt-2 border-t border-gray-700 space-y-2"
+    >
+      <a routerLink="/cart" class="block py-2 hover:text-indigo-300"
+        >🛍️ Carts</a
+      >
+      <a routerLink="/users" class="block py-2 hover:text-indigo-300"
+        >👤 Users</a
+      >
+      <a routerLink="/auth" class="block py-2 hover:text-indigo-300">🔒 Auth</a>
+      <a
+        href="https://fakestoreapi.com/docs"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="block py-2 text-gray-300 hover:text-white"
+      >
+        📄 API Docs
+      </a>
+    </div>
+  </div>
+</nav>
+
+<div class="h-14"></div>
+
+<main class="min-h-screen bg-gray-50 py-6">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <section class="bg-white rounded-lg shadow-sm p-6">
       <router-outlet></router-outlet>
     </section>
-  </main>
-</div>
+  </div>
+</main>
+
 <ui-footer></ui-footer>

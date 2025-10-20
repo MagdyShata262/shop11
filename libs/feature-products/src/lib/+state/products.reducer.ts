@@ -1,124 +1,192 @@
-import { createReducer, on } from '@ngrx/store';
+import { createFeature, createReducer, on } from '@ngrx/store';
 import { Product } from '@mydata-access/data-access';
 import * as ProductsActions from './products.actions';
-
-export const productsFeatureKey = 'products';
 
 export interface ProductsState {
   products: Product[];
   selectedProduct: Product | null;
   loading: boolean;
   error: string | null;
+  loaded: boolean;
 }
 
-export const initialState: ProductsState = {
+export const initialProductsState: ProductsState = {
   products: [],
   selectedProduct: null,
   loading: false,
   error: null,
+  loaded: false,
 };
 
-export const productsReducer = createReducer(
-  initialState,
+export const productsFeature = createFeature({
+  name: 'products',
+  reducer: createReducer(
+    initialProductsState,
+    // Load Products
+    on(
+      ProductsActions.loadProducts,
+      (state): ProductsState => ({
+        ...state,
+        loading: true,
+        error: null,
+      })
+    ),
+    on(
+      ProductsActions.loadProductsSuccess,
+      (state, { products }): ProductsState => ({
+        ...state,
+        products,
+        loading: false,
+        loaded: true,
+        error: null,
+      })
+    ),
+    on(
+      ProductsActions.loadProductsFailure,
+      (state, { error }): ProductsState => ({
+        ...state,
+        loading: false,
+        error,
+      })
+    ),
 
-  // Load Products
-  on(ProductsActions.loadProducts, (state) => ({
-    ...state,
-    loading: true,
-    error: null,
-  })),
+    // Load Single Product
+    on(
+      ProductsActions.loadProduct,
+      (state): ProductsState => ({
+        ...state,
+        loading: true,
+        error: null,
+      })
+    ),
+    on(
+      ProductsActions.loadProductSuccess,
+      (state, { product }): ProductsState => ({
+        ...state,
+        selectedProduct: product,
+        loading: false,
+        error: null,
+      })
+    ),
+    on(
+      ProductsActions.loadProductFailure,
+      (state, { error }): ProductsState => ({
+        ...state,
+        loading: false,
+        error,
+      })
+    ),
 
-  on(ProductsActions.loadProductsSuccess, (state, { products }) => ({
-    ...state,
-    products,
-    loading: false,
-  })),
+    // Create Product
+    on(
+      ProductsActions.createProduct,
+      (state): ProductsState => ({
+        ...state,
+        loading: true,
+        error: null,
+      })
+    ),
+    on(
+      ProductsActions.createProductSuccess,
+      (state, { product }): ProductsState => ({
+        ...state,
+        products: [...state.products, product],
+        loading: false,
+        error: null,
+      })
+    ),
+    on(
+      ProductsActions.createProductFailure,
+      (state, { error }): ProductsState => ({
+        ...state,
+        loading: false,
+        error,
+      })
+    ),
 
-  on(ProductsActions.loadProductsFailure, (state, { error }) => ({
-    ...state,
-    error,
-    loading: false,
-  })),
+    // Update Product
+    on(
+      ProductsActions.updateProduct,
+      (state): ProductsState => ({
+        ...state,
+        loading: true,
+        error: null,
+      })
+    ),
+    on(
+      ProductsActions.updateProductSuccess,
+      (state, { product }): ProductsState => ({
+        ...state,
+        products: state.products.map((p) =>
+          p.id === product.id ? product : p
+        ),
+        selectedProduct:
+          state.selectedProduct?.id === product.id
+            ? product
+            : state.selectedProduct,
+        loading: false,
+        error: null,
+      })
+    ),
+    on(
+      ProductsActions.updateProductFailure,
+      (state, { error }): ProductsState => ({
+        ...state,
+        loading: false,
+        error,
+      })
+    ),
 
-  // Load Single Product
-  on(ProductsActions.loadProduct, (state) => ({
-    ...state,
-    loading: true,
-    error: null,
-  })),
+    // Delete Product
+    on(
+      ProductsActions.deleteProduct,
+      (state): ProductsState => ({
+        ...state,
+        loading: true,
+        error: null,
+      })
+    ),
+    on(
+      ProductsActions.deleteProductSuccess,
+      (state, { id }): ProductsState => ({
+        ...state,
+        products: state.products.filter((p) => p.id !== id),
+        selectedProduct:
+          state.selectedProduct?.id === id ? null : state.selectedProduct,
+        loading: false,
+        error: null,
+      })
+    ),
+    on(
+      ProductsActions.deleteProductFailure,
+      (state, { error }): ProductsState => ({
+        ...state,
+        loading: false,
+        error,
+      })
+    ),
 
-  on(ProductsActions.loadProductSuccess, (state, { product }) => ({
-    ...state,
-    selectedProduct: product,
-    loading: false,
-  })),
+    // Clear Selected Product
+    on(
+      ProductsActions.clearSelectedProduct,
+      (state): ProductsState => ({
+        ...state,
+        selectedProduct: null,
+      })
+    )
+  ),
+});
 
-  on(ProductsActions.loadProductFailure, (state, { error }) => ({
-    ...state,
-    error,
-    loading: false,
-  })),
+// Export the feature key for backward compatibility
+export const productsFeatureKey = productsFeature.name;
+export const productsReducer = productsFeature.reducer;
 
-  // Add Product
-  on(ProductsActions.addProduct, (state) => ({
-    ...state,
-    loading: true,
-    error: null,
-  })),
-
-  on(ProductsActions.addProductSuccess, (state, { product }) => ({
-    ...state,
-    products: [...state.products, product],
-    loading: false,
-  })),
-
-  on(ProductsActions.addProductFailure, (state, { error }) => ({
-    ...state,
-    error,
-    loading: false,
-  })),
-
-  // Update Product
-  on(ProductsActions.updateProduct, (state) => ({
-    ...state,
-    loading: true,
-    error: null,
-  })),
-
-  on(ProductsActions.updateProductSuccess, (state, { product }) => ({
-    ...state,
-    products: state.products.map((p) => (p.id === product.id ? product : p)),
-    selectedProduct:
-      state.selectedProduct?.id === product.id
-        ? product
-        : state.selectedProduct,
-    loading: false,
-  })),
-
-  on(ProductsActions.updateProductFailure, (state, { error }) => ({
-    ...state,
-    error,
-    loading: false,
-  })),
-
-  // Delete Product
-  on(ProductsActions.deleteProduct, (state) => ({
-    ...state,
-    loading: true,
-    error: null,
-  })),
-
-  on(ProductsActions.deleteProductSuccess, (state, { id }) => ({
-    ...state,
-    products: state.products.filter((p) => p.id !== id),
-    selectedProduct:
-      state.selectedProduct?.id === id ? null : state.selectedProduct,
-    loading: false,
-  })),
-
-  on(ProductsActions.deleteProductFailure, (state, { error }) => ({
-    ...state,
-    error,
-    loading: false,
-  }))
-);
+// Selectors
+export const {
+  selectProductsState,
+  selectProducts,
+  selectSelectedProduct,
+  selectLoading,
+  selectError,
+  selectLoaded,
+} = productsFeature;

@@ -2,11 +2,11 @@ import { Component, Input } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 import { CommonModule } from '@angular/common';
-import { HeaderComponent } from '@myui/ui';
+
 import { FooterComponent } from '@myui/ui';
 
 @Component({
-  imports: [RouterModule, CommonModule, HeaderComponent, FooterComponent],
+  imports: [RouterModule, CommonModule, FooterComponent],
   standalone: true,
   selector: 'app-root',
   templateUrl: './app.html',
@@ -14,4 +14,9 @@ import { FooterComponent } from '@myui/ui';
 })
 export class App {
   @Input() title = 'shop';
+  isMobileMenuOpen = false;
+
+  toggleMobileMenu() {
+    this.isMobileMenuOpen = !this.isMobileMenuOpen;
+  }
 }

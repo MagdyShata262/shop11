@@ -1,1 +1,129 @@
-<p>product-details works!</p>
+<div class="min-h-screen bg-gray-50 py-8" dir="rtl">
+  <div class="container mx-auto px-4">
+    <!-- زر العودة -->
+    <button
+      (click)="goBack()"
+      class="mb-6 flex items-center gap-2 text-blue-600 hover:text-blue-800 font-medium"
+    >
+      ← العودة إلى المنتجات
+    </button>
+
+    <!-- حالة التحميل -->
+    @if (loading$ | async) {
+    <div class="flex flex-col items-center justify-center py-20">
+      <div
+        class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500 mb-4"
+      ></div>
+      <p class="text-gray-600">جاري تحميل تفاصيل المنتج...</p>
+    </div>
+    }
+
+    <!-- حالة الخطأ -->
+    @if (error$ | async; as error) {
+    <div
+      class="bg-red-50 border border-red-200 rounded-xl p-6 text-center max-w-2xl mx-auto"
+    >
+      <h3 class="text-red-800 font-bold text-xl mb-2">حدث خطأ</h3>
+      <p class="text-red-600 mb-4">{{ error }}</p>
+      <button
+        (click)="reloadProducts()"
+        class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg"
+      >
+        إعادة المحاولة
+      </button>
+    </div>
+    }
+
+    <!-- تفاصيل المنتج -->
+    @if (product$ | async; as product) {
+    <div
+      class="bg-white rounded-2xl shadow-card overflow-hidden max-w-4xl mx-auto"
+    >
+      <div class="md:flex">
+        <!-- الصورة -->
+        <div class="md:w-1/2 p-6 flex items-center justify-center bg-gray-100">
+          <img
+            [src]="product.image"
+            [alt]="product.title"
+            class="max-h-96 object-contain"
+          />
+        </div>
+
+        <!-- المعلومات -->
+        <div class="md:w-1/2 p-6">
+          <span
+            class="text-xs font-medium text-blue-600 bg-blue-50 px-2 py-1 rounded-full mb-3 inline-block"
+          >
+            {{ product.category }}
+          </span>
+
+          <h1 class="text-2xl font-bold text-gray-900 mb-3">
+            {{ product.title }}
+          </h1>
+
+          <div class="flex items-center gap-2 mb-4">
+            <span class="text-yellow-500">★</span>
+            <span class="font-medium">{{ product.rating.rate }}</span>
+            <span class="text-gray-500"
+              >({{ product.rating.count }} تقييم)</span
+            >
+          </div>
+
+          <!-- السعر -->
+          <div class="mb-6">
+            @if (hasDiscount(product)) {
+            <div class="flex items-baseline gap-2">
+              <span class="text-lg text-gray-500 line-through">
+                ${{ product.price | number : '1.2-2' }}
+              </span>
+              <span class="text-2xl font-bold text-gray-900">
+                ${{ getDiscountedPrice(product) | number : '1.2-2' }}
+              </span>
+              <span
+                class="bg-red-500 text-white text-xs px-2 py-1 rounded-full"
+              >
+                {{ getDiscountPercentage(product) }}% خصم
+              </span>
+            </div>
+            } @else {
+            <span class="text-2xl font-bold text-gray-900">
+              ${{ product.price | number : '1.2-2' }}
+            </span>
+            }
+          </div>
+
+          <!-- الحالة -->
+          @if (!isInStock(product)) {
+          <div
+            class="mb-4 p-2 bg-red-50 text-red-700 rounded-lg text-sm font-medium"
+          >
+            ⚠️ نفد من المخزون
+          </div>
+          }
+
+          <!-- الوصف -->
+          <p class="text-gray-700 mb-6 leading-relaxed">
+            {{ product.description }}
+          </p>
+
+          <!-- أزرار الإجراء -->
+          <div class="flex flex-col sm:flex-row gap-3">
+            <button
+              (click)="onAddToCart(product)"
+              [disabled]="!isInStock(product)"
+              class="flex-1 py-3 px-4 bg-gradient-to-l from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 disabled:from-gray-300 disabled:to-gray-400 text-white rounded-lg font-semibold transition-colors duration-200 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+            >
+              🛒 {{ isInStock(product) ? 'إضافة إلى السلة' : 'غير متوفر' }}
+            </button>
+            <button
+              class="py-3 px-4 border border-gray-300 hover:border-blue-500 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg font-medium transition-colors duration-200 flex items-center justify-center gap-2"
+            >
+              ❤️ إضافة للمفضلة
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    }
+  </div>
+</div>

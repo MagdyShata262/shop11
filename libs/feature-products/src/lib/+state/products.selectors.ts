@@ -1,30 +1,34 @@
-import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { productsFeatureKey, ProductsState } from './products.reducer';
+import { createSelector } from '@ngrx/store';
+import { productsFeature } from './products.reducer';
+import { Product } from '@mydata-access/data-access';
 
-export const selectProductsState =
-  createFeatureSelector<ProductsState>(productsFeatureKey);
-
-export const selectAllProducts = createSelector(
+// استخدام الـ selectors من الـ feature
+export const {
   selectProductsState,
-  (state) => state.products
-);
+  selectProducts,
+  selectSelectedProduct,
+  selectLoading,
+  selectError,
+  selectLoaded,
+} = productsFeature;
 
-export const selectSelectedProduct = createSelector(
-  selectProductsState,
-  (state) => state.selectedProduct
-);
+// Selectors إضافية
+export const selectAllProducts = selectProducts;
 
-export const selectProductsLoading = createSelector(
-  selectProductsState,
-  (state) => state.loading
-);
+export const selectProductsLoading = selectLoading;
 
-export const selectProductsError = createSelector(
-  selectProductsState,
-  (state) => state.error
-);
+export const selectProductsError = selectError;
 
+export const selectProductsLoaded = selectLoaded;
+
+// Select product by ID
 export const selectProductById = (id: number) =>
   createSelector(selectAllProducts, (products) =>
     products.find((product) => product.id === id)
+  );
+
+// Select products by category
+export const selectProductsByCategory = (category: string) =>
+  createSelector(selectAllProducts, (products) =>
+    products.filter((product) => product.category === category)
   );

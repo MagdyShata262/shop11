@@ -4,6 +4,17 @@
 @tailwind utilities;
 
 // في src/styles.scss
+// src/styles.scss
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+// إذا كنت تستخدم فئات مخصصة، تأكد من تعريفها في tailwind.config.js
 .card {
-    @apply bg-white rounded-xl shadow-sm p-6 border border-gray-100;
+    @apply bg-white rounded-xl shadow-card p-6 border border-gray-100;
+}
+
+// أو استخدم فئات Tailwind الافتراضية
+.card-default {
+    @apply bg-white rounded-xl shadow-md p-6 border border-gray-200;
 }

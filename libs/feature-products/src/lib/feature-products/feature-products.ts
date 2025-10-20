@@ -1,11 +1,11 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { ProductsListComponent } from '../products-list/products-list.component';
+
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'feature-products-feature-products',
   standalone: true,
-  imports: [CommonModule, ProductsListComponent],
+  imports: [RouterOutlet],
   templateUrl: './feature-products.html',
   styleUrl: './feature-products.scss',
 })
